@@ -1,8 +1,3 @@
 export default function Home() {
-  return (
-    <main>
-      <h1>Transcontinenta Preview 🚀</h1>
-      <p>Mijn site werkt!</p>
-    </main>
-  );
+  return <h1 style={{color: "red"}}>TEST PAGINA</h1>;
 }
