@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background rounded square -->
+  <rect width="100" height="100" rx="21" fill="#3B3B3C"/>
+  <!-- Main C arc (the TC monogram) -->
+  <path d="M74 27 C52 19, 24 32, 24 50 C24 68, 52 81, 74 73"
+        stroke="#7E7E7E" stroke-width="14" fill="none"
+        stroke-linecap="round"/>
+  <!-- Red accent at top-left of C opening -->
+  <path d="M40 24 C52 19, 64 21, 74 27 C63 33, 50 34, 40 31 Z"
+        fill="#C81B1B"/>
+</svg>
