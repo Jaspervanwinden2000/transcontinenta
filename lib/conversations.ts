@@ -130,3 +130,41 @@ export function updateConversationTitle(id: string, title: string): void {
   const db = getDb();
   db.prepare('UPDATE conversations SET title = ? WHERE id = ?').run(title, id);
 }
+
+export interface DailyStat {
+  date: string;
+  conversations: number;
+  messages: number;
+}
+
+export function getDailyStats(days = 7): DailyStat[] {
+  const db = getDb();
+  const result: DailyStat[] = [];
+
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() - i);
+    const start = d.getTime();
+    const end = start + 86400000;
+
+    const label = d.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
+
+    const convCount = (db.prepare(
+      'SELECT COUNT(*) as count FROM conversations WHERE created_at >= ? AND created_at < ?'
+    ).get(start, end) as { count: number }).count;
+
+    const msgCount = (db.prepare(
+      'SELECT COUNT(*) as count FROM messages WHERE created_at >= ? AND created_at < ?'
+    ).get(start, end) as { count: number }).count;
+
+    result.push({ date: label, conversations: convCount, messages: msgCount });
+  }
+
+  return result;
+}
+
+export function getTotalMessages(): number {
+  const db = getDb();
+  return (db.prepare('SELECT COUNT(*) as count FROM messages').get() as { count: number }).count;
+}

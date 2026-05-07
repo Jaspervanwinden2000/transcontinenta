@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { listConversations, getStats } from '@/lib/conversations';
+import { listConversations, getStats, getDailyStats, getTotalMessages } from '@/lib/conversations';
 import fs from 'fs';
 import path from 'path';
 
@@ -22,7 +22,13 @@ export async function GET(req: NextRequest) {
 
   if (action === 'stats') {
     const stats = getStats();
-    return Response.json(stats);
+    const totalMessages = getTotalMessages();
+    return Response.json({ ...stats, totalMessages });
+  }
+
+  if (action === 'daily') {
+    const daily = getDailyStats(7);
+    return Response.json(daily);
   }
 
   if (action === 'knowledge') {
